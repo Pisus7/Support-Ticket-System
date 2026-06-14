@@ -1,5 +1,10 @@
 # Support-Ticket-System
 
+## Start Paralleles Arbeiten
+Siehe [Anleitung für Cloning](anleitung_clone_pius.md)
+
+Siehe [Aufgabenverteilung im Abschnitt "Installation & Setup"](#aufgabenverteilung)
+
 ## Projektbeschreibung
 Das Support-Ticket-System ist eine Webanwendung zur Verwaltung von IT-Problemen innerhalb eines Unternehmens. Mitarbeiter können Tickets erstellen, bearbeiten und kommentieren. Support-Mitarbeiter können diese Tickets bearbeiten und den Status verwalten.
 
@@ -81,7 +86,7 @@ Empfänger:
 - Migrationen ausführen: `php artisan migrate --seed`
 - Lokalen Server starten:`php artisan serve`
 
-**Aufgabenverteilung**:
+## Aufgabenverteilung:
 - **Pius**: Entwicklung der Benutzeroberfläche mit Laravel Blade, Entwurf des Datenbankmodells, Erstellung von Migrationen und Tests, Fehleranalyse sowie Verwaltung der GitHub-Issues.
 - **Paul**: Initialisierung des Laravel-Projekts, Entwicklung der Backend-Logik inklusive CRUD-Funktionalitäten und Controller/Routes, Implementierung der Benutzerverwaltung sowie Erstellung und Dokumentation des Sicherheitskonzepts.
 - **Gemeinsam**: Ideenfindung, Projektplanung und Qualitätssicherung
