@@ -67,7 +67,7 @@ Empfänger:
 - Models (Eloquent ORM) zur Abbildung der Datenbanktabellen und Beziehungen
 - Controllers für die gesamte Backend-Logik und CRUD-Funktionen
 - Routes in `web.php` zur Verknüpfung von URLs mit Controller-Funktionen
-- Views mit Blade Templates für die Benutzeroberfläche
+- Views mit Blade Templates für die Benutzeroberfläche (später Umstellung auf React)
 - Validation zur Prüfung von Eingaben
 - Middleware für Authentifizierung und Zugriffskontrolle
 
@@ -87,6 +87,6 @@ Empfänger:
 - Lokalen Server starten:`php artisan serve`
 
 ## Aufgabenverteilung:
-- **Pius**: Entwicklung der Benutzeroberfläche mit Laravel Blade, Entwurf des Datenbankmodells, Erstellung von Migrationen und Tests, Fehleranalyse sowie Verwaltung der GitHub-Issues.
-- **Paul**: Initialisierung des Laravel-Projekts, Entwicklung der Backend-Logik inklusive CRUD-Funktionalitäten und Controller/Routes, Implementierung der Benutzerverwaltung sowie Erstellung und Dokumentation des Sicherheitskonzepts.
+- **Pius**: Entwicklung der Benutzeroberfläche mit Laravel Blade (später React (Paul)), Entwurf des Datenbankmodells, Erstellung von Migrationen und Tests, Fehleranalyse sowie Verwaltung der GitHub-Issues.
+- **Paul**: Initialisierung des Laravel-Projekts, Entwicklung der Backend-Logik inklusive CRUD-Funktionalitäten und Controller/Routes, Implementierung der Benutzerverwaltung sowie Erstellung und Dokumentation des Sicherheitskonzepts, Blade Template auf React umstellen danach am Ende
 - **Gemeinsam**: Ideenfindung, Projektplanung und Qualitätssicherung
