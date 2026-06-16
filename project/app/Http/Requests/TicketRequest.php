@@ -23,6 +23,7 @@ class TicketRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'category_id' => 'required|exists:categories,id',
             'ticket_subject' => 'required|string|min:5|max:255',
             'ticket_message' => 'required|string',
         ];
