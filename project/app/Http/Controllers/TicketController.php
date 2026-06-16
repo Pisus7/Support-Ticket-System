@@ -2,84 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketStatus;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
-use App\Notifications\NewCommentNotification;
-use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
-/**
- * index show edit update destroy store create for tickets
- */
 class TicketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return view('tickets.index', [
-            'tickets' => Auth::user()->tickets()->get(),
+        return Inertia::render('Tickets/Index', [
+            'tickets' => Auth::user()->tickets()->with('category')->get(),
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('tickets.create');
+        return Inertia::render('Tickets/Create', [
+            'categories' => Category::all(['id', 'name']),
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(TicketRequest $request)
     {
         $ticket = Auth::user()->tickets()->create([
             'ticket_subject' => $request->ticket_subject,
             'ticket_message' => $request->ticket_message,
-            'ticket_status' => $request->ticket_status,
+            'ticket_status' => $request->ticket_status ?? TicketStatus::OPEN->value,
             'category_id' => $request->category_id,
         ]);
 
-        $ticketNumber = 'TICKET-' . date('Y') . '-' . str_pad($ticket->id, 5, 0, STR_PAD_LEFT);
-
-        $ticket->ticket_nr = $ticketNumber;
+        $ticket->ticket_nr = 'TICKET-' . date('Y') . '-' . str_pad($ticket->id, 5, '0', STR_PAD_LEFT);
         $ticket->save();
 
-        Auth::user() -> notify(new NewCommentNotification($ticket));
-        return redirect('/tickets/'.$ticket->id);
+        return redirect()->route('tickets.show', $ticket);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Ticket $ticket)
     {
         Gate::authorize('view', $ticket);
 
-        return view('tickets.show', [
-            'ticket' => $ticket,
+        return Inertia::render('Tickets/Show', [
+            'ticket' => $ticket->load(['category', 'comments.user']),
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Ticket $ticket)
     {
         Gate::authorize('update', $ticket);
 
-        return view('tickets.edit', [
+        return Inertia::render('Tickets/Edit', [
             'ticket' => $ticket,
+            'categories' => Category::all(['id', 'name']),
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(TicketRequest $request, Ticket $ticket)
     {
         Gate::authorize('update', $ticket);
@@ -89,18 +69,15 @@ class TicketController extends Controller
             'ticket_message' => $request->input('ticket_message')
         ]);
 
-        return redirect('/tickets/'.$ticket->id);
+        return redirect()->route('tickets.show', $ticket);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Ticket $ticket)
     {
         Gate::authorize('delete', $ticket);
 
         $ticket->delete();
 
-        return redirect('/tickets');
+        return redirect()->route('tickets.index');
     }
 }
