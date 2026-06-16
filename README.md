@@ -77,6 +77,26 @@ Um die Integrität der Daten und die Privatsphäre der Benutzer zu schützen, wu
 4. **Mass-Assignment-Protection & Validierung:**
    Sämtliche Benutzereingaben werden über *Form Requests* typisiert validiert, bevor sie die Datenbank erreichen. Die Models nutzen das `$fillable`-Array, um das unbefugte Überschreiben kritischer Tabellenspalten (wie `user_id` oder IDs) durch manipuliertes HTML/JSON zu verhindern.
 
+### REST-Matrix & API-Endpunkte
+
+Die Kommunikation zwischen dem React-Frontend und dem Laravel-Backend folgt strikten REST-Prinzipien über *Inertia.js*. Alle Endpunkte (außer der Startseite) sind durch die Authentifizierungs-Middleware geschützt.
+
+| HTTP-Methode | URL-Pfad | Controller-Methode | Routen-Name | Beschreibung (Szenario) | Schutz & Autorisierung |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **GET** | `/` | *Anonyme Closure* | - | Zeigt die öffentliche Willkommensseite mit Login/Register-Links | Keine (Öffentlich) |
+| **GET** | `/profile` | `ProfileController@edit` | `profile.edit` | Zeigt das React-Formular zur Verwaltung des eigenen Profils | `auth` |
+| **PATCH** | `/profile` | `ProfileController@update` | `profile.update` | Aktualisiert die Profil-Stammdaten des Benutzers | `auth` |
+| **DELETE** | `/profile` | `ProfileController@destroy` | `profile.destroy` | Löscht das gesamte Benutzerkonto aus dem System | `auth` |
+| **GET** | `/tickets` | `TicketController@index` | `tickets.index` | Zeigt das Dashboard mit einer Liste aller eigenen Tickets | `auth` |
+| **GET** | `/tickets/create` | `TicketController@create` | `tickets.create` | Liefert das Ticket-Erstellungsformular mitsamt Kategorien-Dropdown | `auth` |
+| **POST** | `/tickets` | `TicketController@store` | `tickets.store` | Validiert und speichert ein neues Support-Ticket in der Datenbank | `auth` (Form Request) |
+| **GET** | `/tickets/{ticket}` | `TicketController@show` | `tickets.show` | Detailseite eines Tickets mitsamt dem gesamten Chatverlauf | `auth` + `TicketPolicy` |
+| **GET** | `/tickets/{ticket}/edit` | `TicketController@edit` | `tickets.edit` | Formular zur Bearbeitung eines bestehenden Tickets | `auth` + `TicketPolicy` |
+| **PUT/PATCH** | `/tickets/{ticket}` | `TicketController@update` | `tickets.update` | Aktualisiert die Ticket-Daten oder den aktuellen `ticket_status` | `auth` + `TicketPolicy` |
+| **DELETE** | `/tickets/{ticket}` | `TicketController@destroy` | `tickets.destroy` | Löscht ein Ticket kaskadierend mitsamt all seinen Kommentaren | `auth` + `TicketPolicy` |
+| **POST** | `/tickets/{ticket}/comments` | `CommentController@store` | `comments.store` | Sendet eine neue Antwort oder eine interne Notiz im Ticket-Chat ab | `auth` |
+| **DELETE** | `/tickets/{ticket}/comments/{comment}` | `comments.destroy` | `comments.destroy` | Löscht einen spezifischen Kommentar dauerhaft aus dem Verlauf | `auth` |
+
 ## ER-Diagramm (Entity-Relationship-Diagramm) (Paul)
 ![ER-Diagramm](er-diagram.png)
 
