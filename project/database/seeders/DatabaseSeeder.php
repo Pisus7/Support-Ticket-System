@@ -41,6 +41,11 @@ class DatabaseSeeder extends Seeder
             'user_id' => '1',
             'content' => 'Mein erster Test-Kommentar'
         ]);
+        Comment::factory()->create([
+            'ticket_id' => '1',
+            'user_id' => '1',
+            'content' => 'Was machen sie? Das Internet kann man nicht löschen! Prüfen Sie Ihre Internetverbindung!'
+        ]);
 
 
     }
