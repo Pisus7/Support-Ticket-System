@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TicketStatus;
 use App\Models\Category;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -18,7 +19,7 @@ return new class extends Migration
             $table->string('ticket_nr')->unique();
             $table->string('ticket_subject');
             $table->longText('ticket_message');
-            $table->string('ticket_status');
+            $table->string('ticket_status')->default(TicketStatus::OPEN->value);
             $table->foreignIdFor(User::class)->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(Category::class)->constrained('categories')->cascadeOnDelete();
             $table->timestamps();
