@@ -30,7 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Ticket::factory()->create([
             'user_id' => 1,
-            'ticket_nr' => 1,
+            'ticket_nr' => 'TICKET-26-1',
             'category_id' => $category->id,
             'ticket_subject' => 'Internet gelöscht',
             'ticket_message' => 'Nichts geht mehr auf dem Glump',
