@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use App\Notifications\NewCommentNotification;
-use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * index show edit update destroy store create for tickets
@@ -50,7 +50,7 @@ class TicketController extends Controller
         $ticket->save();
 
         Auth::user() -> notify(new NewCommentNotification($ticket));
-        return redirect('/tickets');
+        return redirect('/tickets/'.$ticket->id);
     }
 
     /**
