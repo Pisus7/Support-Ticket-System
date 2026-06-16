@@ -41,6 +41,7 @@ class TicketController extends Controller
             'ticket_subject' => $request->ticket_subject,
             'ticket_message' => $request->ticket_message,
             'ticket_status' => $request->ticket_status,
+            'category_id' => $request->category_id,
         ]);
 
         $ticketNumber = 'TICKET-' . date('Y') . '-' . str_pad($ticket->id, 5, 0, STR_PAD_LEFT);
@@ -57,7 +58,7 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        Gate::authorize('update', $ticket);
+        Gate::authorize('view', $ticket);
 
         return view('tickets.show', [
             'ticket' => $ticket,
@@ -96,7 +97,7 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        Gate::authorize('update', $ticket);
+        Gate::authorize('delete', $ticket);
 
         $ticket->delete();
 

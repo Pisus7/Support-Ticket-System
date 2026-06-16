@@ -87,6 +87,6 @@ Empfänger:
 - Lokalen Server starten:`php artisan serve`
 
 ## Aufgabenverteilung:
-- **Pius**: Entwicklung der Benutzeroberfläche mit Laravel Blade (später React (Paul)), Entwurf des Datenbankmodells, Erstellung von Migrationen und Tests, Fehleranalyse sowie Verwaltung der GitHub-Issues.
-- **Paul**: Initialisierung des Laravel-Projekts, Entwicklung der Backend-Logik inklusive CRUD-Funktionalitäten und Controller/Routes, Implementierung der Benutzerverwaltung sowie Erstellung und Dokumentation des Sicherheitskonzepts, Blade Template auf React umstellen danach am Ende
+- **Pius**: Entwicklung der Benutzeroberfläche mit React, Entwurf des Datenbankmodells, Erstellung von Migrationen und Tests, Fehleranalyse sowie Verwaltung der GitHub-Issues.
+- **Paul**: Initialisierung des Laravel-Projekts, Entwicklung der Backend-Logik inklusive CRUD-Funktionalitäten und Controller/Routes, Implementierung der Benutzerverwaltung sowie Erstellung und Dokumentation des Sicherheitskonzepts, ER Diagramm und Datenbankmodell erstellen, Inertia js einrichten mit Laravel Breeze und vorbereiten
 - **Gemeinsam**: Ideenfindung, Projektplanung und Qualitätssicherung
