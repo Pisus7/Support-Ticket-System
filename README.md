@@ -21,10 +21,10 @@ Mitarbeiter melden IT-Probleme (z. B. Softwarefehler, Hardwareprobleme oder Netz
 **Beziehungen**:
 
 - Ein User kann viele Tickets erstellen (1:n)
-- Ein Ticket gehört zu genau einem User (1:1)
-- Ein Ticket gehört zu einer Kategorie (1:1)
-- Ein Ticket kann viele Kommentare haben (1:n)
-- Ein Kommentar gehört zu einem User und einem Ticket (1:1)
+- Ein Ticket gehört zu genau einem User (n:1)
+- Ein Ticket gehört zu einer Kategorie (n:1)
+- Ein Ticket kann viele Kommentare haben (n:1)
+- Ein Kommentar gehört zu einem User und einem Ticket (n:1)
 
 ## Funktionen
 **Ticketsystem**:
