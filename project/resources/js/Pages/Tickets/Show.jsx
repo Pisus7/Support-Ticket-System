@@ -131,7 +131,7 @@ export default function Show({ ticket, auth }) {
                         </div>
                     ) : (
                         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm text-gray-500 italic">
-                            Hinweis: Nur Administratoren können dieses Ticket kommentieren.
+                            Hinweis: Nur Administratoren können Tickets kommentieren.
                         </div>
                     )}
                 </div>

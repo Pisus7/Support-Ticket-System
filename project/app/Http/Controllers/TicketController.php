@@ -6,16 +6,24 @@ use App\Enums\TicketStatus;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use App\Models\Category;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class TicketController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $user = $request->user();
+
+        if ($user->role_id === 1) {
+            $tickets = Ticket::with('user')->latest()->get();
+        } else {
+            $tickets = Ticket::where('user_id', $user->id)->latest()->get();
+        }
         return Inertia::render('Tickets/Index', [
-            'tickets' => Auth::user()->tickets()->with('category')->get(),
+            'tickets' => $tickets
         ]);
     }
 
