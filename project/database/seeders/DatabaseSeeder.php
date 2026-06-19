@@ -4,10 +4,12 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Role;
 use App\Models\Ticket;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,9 +22,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        Role::factory()->create([
+            'description' => 'admin'
+        ]);
+
         User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => Hash::make('123'),
+            'role_id' => 1
         ]);
         $category = Category::factory()->create([
             'name' => 'Web Programming',
@@ -46,7 +54,6 @@ class DatabaseSeeder extends Seeder
             'user_id' => '1',
             'content' => 'Was machen sie? Das Internet kann man nicht löschen! Prüfen Sie Ihre Internetverbindung!'
         ]);
-
 
     }
 }
