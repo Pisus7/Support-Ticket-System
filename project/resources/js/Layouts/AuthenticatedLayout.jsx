@@ -42,13 +42,11 @@ export default function AuthenticatedLayout({ header, children }) {
                         </div>
                         {isAdmin && (
                             <div className="flex items-center gap-2">
-                                {/* Der blinkende Puls-Punkt */}
                                 <span className="relative flex h-3 w-3">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-3 w-3 bg-indigo-600"></span>
                             </span>
 
-                                {/* Das Text-Badge (mit whitespace-nowrap, damit es niemals umbricht) */}
                                 <span className="whitespace-nowrap text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200 shadow-sm">
                                 Admin Mode
                             </span>

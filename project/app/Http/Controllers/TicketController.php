@@ -80,17 +80,16 @@ class TicketController extends Controller
         ]);
     }
 
-    public function update(TicketRequest $request, Ticket $ticket)
+    public function update(Request $request, Ticket $ticket)
     {
         if ($request->user()->role_id !== 1) {
             Gate::authorize('update', $ticket);
         }
 
-        $ticket->update([
-            'ticket_subject' => $request->ticket_subject,
-            'ticket_message' => $request->ticket_message,
-            'category_id' => $request->category_id,
-        ]);
+        $newStatus = $request->input('ticket_status');
+        $ticket->ticket_status = $newStatus;
+        $ticket->save();
+        $ticket->refresh();
 
         return redirect()->route('tickets.show', $ticket);
     }

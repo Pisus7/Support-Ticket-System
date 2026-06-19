@@ -37,12 +37,13 @@ export default function Show({ ticket, auth }) {
                             Status: {ticket.ticket_status}
                         </p>
 
+
                         <div className="flex gap-3">
                             <Link
                                 href={route('tickets.index')}
                                 className="border border-gray-500 text-gray-500 px-3 py-1 rounded hover:bg-gray-500 hover:text-white transition"
                             >
-                                Zurück
+                                Back
                             </Link>
 
                             <Link
@@ -50,6 +51,18 @@ export default function Show({ ticket, auth }) {
                                 className="border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-500 hover:text-white transition"
                             >
                                 Edit
+                            </Link>
+                            <Link
+                                href={route('tickets.update', ticket.id)}
+                                method="put"
+                                data={{
+                                    ticket_status: 'closed',
+                                    ticket_subject: ticket.ticket_subject,
+                                    ticket_message: ticket.ticket_message
+                                }}
+                                className="border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition"
+                            >
+                                Close
                             </Link>
                         </div>
 

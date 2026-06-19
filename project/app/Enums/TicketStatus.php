@@ -9,16 +9,4 @@ enum TicketStatus : string
     case PENDING = 'pending';
     case RESOLVED = 'resolved';
     case CLOSED = 'closed';
-
-    // Optional: Lesbare Namen für Pius' Frontend (Blade/React)
-    public function label(): string
-    {
-        return match($this) {
-            self::OPEN => 'Offen',
-            self::IN_PROGRESS => 'In Bearbeitung',
-            self::PENDING => 'Wartend',
-            self::RESOLVED => 'Gelöst',
-            self::CLOSED => 'Geschlossen',
-        };
-    }
 }
