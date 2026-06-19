@@ -65,8 +65,9 @@ class TicketController extends Controller
         Gate::authorize('update', $ticket);
 
         $ticket->update([
-            'ticket_subject' => $request->input('ticket_subject'),
-            'ticket_message' => $request->input('ticket_message')
+            'ticket_subject' => $request->ticket_subject,
+            'ticket_message' => $request->ticket_message,
+            'category_id' => $request->category_id,
         ]);
 
         return redirect()->route('tickets.show', $ticket);
