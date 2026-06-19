@@ -6,6 +6,7 @@ use App\Http\Requests\CommentRequest;
 use App\Models\Comment;
 use App\Models\Ticket;
 use App\Notifications\NewCommentNotification;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -13,7 +14,9 @@ class CommentController extends Controller
 {
     public function store(CommentRequest $request, Ticket $ticket)
     {
-        Gate::authorize('view', $ticket);
+        if ($request->user()->role_id !== 1) {
+            Gate::authorize('view', $ticket);
+        }
 
         $comment = $ticket->comments()->create([
             'user_id' => Auth::id(),
@@ -26,9 +29,12 @@ class CommentController extends Controller
         return redirect()->route('tickets.show', $ticket);
     }
 
-    public function destroy(Ticket $ticket, Comment $comment)
+    public function destroy(Request $request, Ticket $ticket, Comment $comment)
     {
-        Gate::authorize('delete', $comment);
+        if ($request->user()->role_id !== 1) {
+            Gate::authorize('delete', $comment);
+        }
+
         $comment->delete();
 
         return redirect()->route('tickets.show', $ticket);

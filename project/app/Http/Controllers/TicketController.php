@@ -17,11 +17,13 @@ class TicketController extends Controller
     {
         $user = $request->user();
 
+        // Admin sieht alle Tickets, User nur seine eigenen
         if ($user->role_id === 1) {
             $tickets = Ticket::with('user')->latest()->get();
         } else {
             $tickets = Ticket::where('user_id', $user->id)->latest()->get();
         }
+
         return Inertia::render('Tickets/Index', [
             'tickets' => $tickets
         ]);
@@ -49,18 +51,28 @@ class TicketController extends Controller
         return redirect()->route('tickets.index');
     }
 
-    public function show(Ticket $ticket)
+    public function show(Request $request, Ticket $ticket)
     {
-        Gate::authorize('view', $ticket);
+        if ($request->user()->role_id !== 1) {
+            Gate::authorize('view', $ticket);
+        }
 
         return Inertia::render('Tickets/Show', [
-            'ticket' => $ticket->load(['category', 'comments.user']),
+            'ticket' => $ticket->load([
+                'category',
+                'comments' => function ($query) {
+                    $query->latest(); // neuesten Kommentare ganz oben stehen
+                },
+                'comments.user'
+            ]),
         ]);
     }
 
-    public function edit(Ticket $ticket)
+    public function edit(Request $request, Ticket $ticket)
     {
-        Gate::authorize('update', $ticket);
+        if ($request->user()->role_id !== 1) {
+            Gate::authorize('update', $ticket);
+        }
 
         return Inertia::render('Tickets/Edit', [
             'ticket' => $ticket,
@@ -70,7 +82,9 @@ class TicketController extends Controller
 
     public function update(TicketRequest $request, Ticket $ticket)
     {
-        Gate::authorize('update', $ticket);
+        if ($request->user()->role_id !== 1) {
+            Gate::authorize('update', $ticket);
+        }
 
         $ticket->update([
             'ticket_subject' => $request->ticket_subject,
@@ -81,9 +95,11 @@ class TicketController extends Controller
         return redirect()->route('tickets.show', $ticket);
     }
 
-    public function destroy(Ticket $ticket)
+    public function destroy(Request $request, Ticket $ticket)
     {
-        Gate::authorize('delete', $ticket);
+        if ($request->user()->role_id !== 1) {
+            Gate::authorize('delete', $ticket);
+        }
 
         $ticket->delete();
 

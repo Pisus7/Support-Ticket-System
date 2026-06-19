@@ -96,10 +96,9 @@ export default function Show({ ticket, auth }) {
                         )}
                     </div>
 
-                    {isAdmin ? (
                         <div className="bg-white shadow rounded-lg p-6">
                             <h2 className="text-lg font-bold mb-4 text-gray-900">
-                                Interner Admin-Kommentar
+                                Kommentar hinzufügen
                             </h2>
 
                             <form onSubmit={submitComment} className="space-y-4">
@@ -129,11 +128,6 @@ export default function Show({ ticket, auth }) {
                                 </div>
                             </form>
                         </div>
-                    ) : (
-                        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-sm text-gray-500 italic">
-                            Hinweis: Nur Administratoren können Tickets kommentieren.
-                        </div>
-                    )}
                 </div>
             </div>
         </AuthenticatedLayout>
