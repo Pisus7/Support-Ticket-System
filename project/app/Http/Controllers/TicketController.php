@@ -31,14 +31,14 @@ class TicketController extends Controller
         $ticket = Auth::user()->tickets()->create([
             'ticket_subject' => $request->ticket_subject,
             'ticket_message' => $request->ticket_message,
-            'ticket_status' => $request->ticket_status ?? TicketStatus::OPEN->value,
+            'ticket_status' => TicketStatus::OPEN->value,
             'category_id' => $request->category_id,
         ]);
 
         $ticket->ticket_nr = 'TICKET-' . date('Y') . '-' . str_pad($ticket->id, 5, '0', STR_PAD_LEFT);
         $ticket->save();
 
-        return redirect()->route('tickets.show', $ticket);
+        return redirect()->route('tickets.index');
     }
 
     public function show(Ticket $ticket)

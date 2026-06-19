@@ -52,7 +52,41 @@ export default function Create({ categories }) {
                                 )}
                             </div>
 
+                            <div className="mb-4">
+                                <label className="block mb-2 font-medium">
+                                    Kategorie
+                                </label>
 
+                                <select
+                                    value={data.category_id}
+                                    onChange={(e) =>
+                                        setData(
+                                            'category_id',
+                                            e.target.value
+                                        )
+                                    }
+                                    className="w-full border rounded p-2"
+                                >
+                                    <option value="">
+                                        Bitte wählen
+                                    </option>
+
+                                    {categories.map((category) => (
+                                        <option
+                                            key={category.id}
+                                            value={category.id}
+                                        >
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
+
+                                {errors.category_id && (
+                                    <p className="text-red-500 mt-1">
+                                        {errors.category_id}
+                                    </p>
+                                )}
+                            </div>
 
                             <div className="mb-6">
                                 <label className="block mb-2 font-medium">
