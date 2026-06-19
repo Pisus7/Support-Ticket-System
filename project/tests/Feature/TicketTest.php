@@ -25,7 +25,7 @@ class TicketTest extends TestCase
     }
 
     /**
-     * Test 2: Ein angemeldeter User kann erfolgreich ein Support-Ticket erstellen (CRUD-Logik).
+     * Test 2: Ein angemeldeter User kann erfolgreich ein Support-Tickets erstellen (CRUD-Logik).
      */
     public function test_authenticated_user_can_create_ticket(): void
     {
@@ -34,7 +34,7 @@ class TicketTest extends TestCase
         $user = User::factory()->create();
         $category = Category::create(['name' => 'Technik', 'description' => 'IT Support']);
 
-        // 2. Aktion: Als User einloggen und Ticket-Formular absenden
+        // 2. Aktion: Als User einloggen und Tickets-Formular absenden
         $response = $this->actingAs($user)->post(route('tickets.store'), [
             'category_id' => $category->id,
             'ticket_subject' => 'Internet geht nicht',
@@ -54,7 +54,7 @@ class TicketTest extends TestCase
     }
 
     /**
-     * Test 3: Ein User darf das Ticket eines anderen Users nicht einsehen (Prüfung der Policy).
+     * Test 3: Ein User darf das Tickets eines anderen Users nicht einsehen (Prüfung der Policy).
      */
     public function test_user_cannot_view_someone_elses_ticket(): void
     {
@@ -63,7 +63,7 @@ class TicketTest extends TestCase
         $userB = User::factory()->create();
         $category = Category::create(['name' => 'Buchhaltung']);
 
-        // User A erstellt ein Ticket
+        // User A erstellt ein Tickets
         $ticketOfUserA = Ticket::create([
             'user_id' => $userA->id,
             'category_id' => $category->id,
@@ -73,7 +73,7 @@ class TicketTest extends TestCase
             'ticket_status' => 'open'
         ]);
 
-        // 2. Aktion: Wir loggen uns als User B ein und versuchen das Ticket von User A aufzurufen
+        // 2. Aktion: Wir loggen uns als User B ein und versuchen das Tickets von User A aufzurufen
         $response = $this->actingAs($userB)->get(route('tickets.show', $ticketOfUserA));
 
         // 3. Überprüfung: Die Policy muss den Zugriff verweigern (HTTP 403 Forbidden)
