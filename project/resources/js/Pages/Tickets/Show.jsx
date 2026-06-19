@@ -23,12 +23,21 @@ export default function Show({ ticket }) {
                             Status: {ticket.ticket_status}
                         </p>
 
-                        <Link
-                            href={route('tickets.index')}
-                            className="border border-gray-500 text-gray-500 px-3 py-1 rounded hover:bg-gray-500 hover:text-white transition"
-                        >
-                            Zurück
-                        </Link>
+                        <div className="flex gap-3">
+                            <Link
+                                href={route('tickets.index')}
+                                className="border border-gray-500 text-gray-500 px-3 py-1 rounded hover:bg-gray-500 hover:text-white transition"
+                            >
+                                Zurück
+                            </Link>
+
+                            <Link
+                                href={route('tickets.edit', ticket.id)}
+                                className="border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-500 hover:text-white transition"
+                            >
+                                Edit
+                            </Link>
+                        </div>
 
                     </div>
 
