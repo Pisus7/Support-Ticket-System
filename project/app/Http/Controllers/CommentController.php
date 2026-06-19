@@ -17,7 +17,7 @@ class CommentController extends Controller
 
         $comment = $ticket->comments()->create([
             'user_id' => Auth::id(),
-            'content' => $request->content,
+            'content' => $request->input('comment_text'),
             'is_internal' => $request->boolean('is_internal', false)
         ]);
 

@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Comment;
 use App\Models\Ticket;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -15,7 +16,7 @@ class NewCommentNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(protected Ticket $ticket)
+    public function __construct(protected Comment $comment)
     {
         //
     }
@@ -35,12 +36,12 @@ class NewCommentNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $url = url('/tickets/'.$this->ticket->id);
+        $url = url('/tickets/'.$this->comment->ticket->id);
 
         return (new MailMessage)
             ->greeting('Hello')
-            ->line('You opened a new ticket')
-            ->line($this->ticket->description)
+            ->line('You have a new comment on your ticket')
+            ->line($this->comment->content)
             ->action('Read It', $url)
             ->line('Thanks for using our app.');
     }

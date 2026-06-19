@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('tickets', TicketController::class);
 
-    Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])->name('comments.store');
+    Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])->name('tickets.comments.store');
     Route::delete('/tickets/{ticket}/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
 
