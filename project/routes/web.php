@@ -16,12 +16,15 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth'])->name('dashboard');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Das hier legt automatisch index, create, store, show, edit, update, destroy für Tickets an!
     Route::resource('tickets', TicketController::class);
 
     Route::post('/tickets/{ticket}/comments', [CommentController::class, 'store'])->name('comments.store');
