@@ -160,6 +160,16 @@ export default function Show({ ticket, auth }) {
                                         <p className="text-gray-800 text-sm whitespace-pre-line">
                                             {comment.content}
                                         </p>
+                                        {((comment.user?.id === auth.user.id) || (auth.user?.role_id === 1)) && (
+                                            <Link
+                                                href={route('comments.destroy', { ticket: ticket.id, comment: comment.id })}
+                                                method="delete"
+                                                className="border border-red-500 text-red-500 px-3 py-1.5 rounded hover:bg-red-500 hover:text-white transition text-sm font-medium ml-auto"
+                                                style={{ marginTop: '10px'}}
+                                            >
+                                                Löschen
+                                            </Link>
+                                        )}
                                     </div>
                                 ))}
                             </div>

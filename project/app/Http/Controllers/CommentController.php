@@ -46,6 +46,10 @@ class CommentController extends Controller
             Gate::authorize('delete', $comment);
         }
 
+        if ($comment->ticket_id !== $ticket->id) {
+            abort(404, 'Comment not found in this ticket.');
+        }
+
         $comment->delete();
 
         return redirect()->route('tickets.show', $ticket);
