@@ -61,21 +61,31 @@ export default function Index({ tickets }) {
                                                 href={route('tickets.show', ticket.id)}
                                                 className="border border-blue-500 text-blue-500 px-3 py-1 rounded hover:bg-blue-500 hover:text-white transition"
                                             >
-                                                View
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M1.5 12s3.5-6 10.5-6 10.5 6 10.5 6-3.5 6-10.5 6S1.5 12 1.5 12z" />
+                                                    <circle cx="12" cy="12" r="3" />
+                                                </svg>
                                             </Link>
 
                                             <Link
                                                 href={route('tickets.edit', ticket.id)}
                                                 className="border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-500 hover:text-white transition"
                                             >
-                                                Edit
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M16.862 3.487a2.1 2.1 0 113 2.97L7.5 18.82l-4 1 1-4L16.862 3.487z" />
+                                                </svg>
                                             </Link>
 
                                             <button
                                                 onClick={() => deleteTicket(ticket.id)}
                                                 className="border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition"
                                             >
-                                                Delete
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M3 6h18M8 6V4h8v2m-9 0h10m-1 0-.75 12.5A2 2 0 0 1 13.26 20H10.74a2 2 0 0 1-1.99-1.5L8 6h8" />
+                                                </svg>
                                             </button>
 
                                         </div>

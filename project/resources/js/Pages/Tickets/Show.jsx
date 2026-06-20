@@ -43,14 +43,20 @@ export default function Show({ ticket, auth }) {
                                 href={route('tickets.index')}
                                 className="border border-gray-500 text-gray-500 px-3 py-1 rounded hover:bg-gray-500 hover:text-white transition"
                             >
-                                Back
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                          d="M10 19l-7-7 7-7M3 12h18" />
+                                </svg>
                             </Link>
 
                             <Link
                                 href={route('tickets.edit', ticket.id)}
                                 className="border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-500 hover:text-white transition"
                             >
-                                Edit
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                          d="M16.862 3.487a2.1 2.1 0 113 2.97L7.5 18.82l-4 1 1-4L16.862 3.487z" />
+                                </svg>
                             </Link>
                             <Link
                                 href={route('tickets.update', ticket.id)}
@@ -60,9 +66,15 @@ export default function Show({ ticket, auth }) {
                                     ticket_subject: ticket.ticket_subject,
                                     ticket_message: ticket.ticket_message
                                 }}
+                                title={"Mark as Closed"}
                                 className="border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition"
                             >
-                                Close
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                          d="M9 12l2 2 4-4" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                          d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z" />
+                                </svg>
                             </Link>
                         </div>
 

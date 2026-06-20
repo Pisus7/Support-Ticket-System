@@ -61,7 +61,7 @@ class TicketController extends Controller
             'ticket' => $ticket->load([
                 'category',
                 'comments' => function ($query) {
-                    $query->latest(); // neuesten Kommentare ganz oben stehen
+                    $query->latest();
                 },
                 'comments.user'
             ]),
