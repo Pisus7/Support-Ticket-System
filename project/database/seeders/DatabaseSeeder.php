@@ -22,9 +22,11 @@ class DatabaseSeeder extends Seeder
     {
         // --- ROLES ---
         Role::factory()->create([
+            'id' => 1,
             'description' => 'admin'
         ]);
         Role::factory()->create([
+            'id' => 2,
             'description' => 'visitor'
         ]);
 
