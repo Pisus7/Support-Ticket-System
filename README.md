@@ -132,7 +132,7 @@ Our internal IT Support system uses a 5-stage workflow to track the lifecycle of
 - Repository klonen
 - Dependencies installieren: `composer install`
 - `.env` Datei erstellen und konfigurieren
-- Datenbank anlegen und Zugangsdaten in `.env` eintragen
+- Datenbank anlegen und Zugangsdaten in `.env` eintragen (Datei mit allen Commands anschauen: [commands_doc.md](commands_doc.md))
 - Migrationen ausführen: `php artisan migrate --seed`
 - Lokalen Server starten:`php artisan serve`
 
