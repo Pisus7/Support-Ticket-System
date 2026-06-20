@@ -88,10 +88,11 @@ class TicketController extends Controller
 
         $newStatus = $request->input('ticket_status');
         $ticket->ticket_status = $newStatus;
+        $ticket->admin_id = Auth::id();
         $ticket->save();
         $ticket->refresh();
 
-        return redirect()->route('tickets.show', $ticket);
+        return redirect()->route('tickets.index', $ticket);
     }
 
     public function destroy(Request $request, Ticket $ticket)

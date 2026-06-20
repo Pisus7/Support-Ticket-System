@@ -68,7 +68,7 @@ class DatabaseSeeder extends Seeder
             'category_id' => 2, // Network & VPN
             'ticket_subject' => 'VPN connection failing from home office',
             'ticket_message' => 'Since this morning, I keep getting a "Server timeout" error when trying to connect to the corporate VPN. My home internet is working fine.',
-            'ticket_status' => 'open'
+            'ticket_status' => 'open',
         ]);
 
         Ticket::factory()->create([
@@ -77,7 +77,7 @@ class DatabaseSeeder extends Seeder
             'category_id' => 1, // Hardware & Devices
             'ticket_subject' => 'Second monitor stays black after update',
             'ticket_message' => 'After yesterday\'s Windows update, my secondary monitor connected to the docking station is no longer receiving a signal.',
-            'ticket_status' => 'in_progress'
+            'ticket_status' => 'open'
         ]);
 
         // --- COMMENTS ---

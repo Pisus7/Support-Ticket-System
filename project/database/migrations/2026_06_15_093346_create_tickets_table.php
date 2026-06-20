@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('ticket_status')->default(TicketStatus::OPEN->value);
             $table->foreignIdFor(User::class)->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(Category::class)->constrained('categories')->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'admin_id')->nullable()->constrained('users')->cascadeOnDelete();
             $table->timestamps();
         });
     }

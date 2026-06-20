@@ -1,5 +1,5 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, router } from '@inertiajs/react';
+import {Head, Link, router, usePage} from '@inertiajs/react';
 
 export default function Index({ tickets }) {
 
@@ -56,6 +56,22 @@ export default function Index({ tickets }) {
                                         </div>
 
                                         <div className="flex gap-2">
+
+                                            <Link
+                                                href={route('tickets.update', ticket.id)}
+                                                method="put"
+                                                data={{ ticket_status: 'in_progress'}}
+                                                title="Take over Ticket"
+                                                className="inline-flex items-center gap-1.5 border border-indigo-600 text-indigo-600 px-3 py-1.5 rounded hover:bg-indigo-600 hover:text-white transition text-sm font-medium shadow-sm"
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                                          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                                <span>Take over</span>
+                                            </Link>
 
                                             <Link
                                                 href={route('tickets.show', ticket.id)}
