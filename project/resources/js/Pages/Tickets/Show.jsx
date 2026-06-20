@@ -98,6 +98,7 @@ export default function Show({ ticket, auth }) {
                                     >
                                         <div className="flex justify-between items-center mb-2 text-xs text-gray-500">
                                             <span className="font-semibold text-gray-700">
+                                                {comment.user?.role_id === 1 ? '(ADMIN) ': ''}
                                                 {comment.user?.name || 'Unbekannter Nutzer'}
                                                 {comment.is_internal && ' (Intern)'}
                                             </span>
