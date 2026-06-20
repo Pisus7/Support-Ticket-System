@@ -7,6 +7,9 @@ test('registration screen can be rendered', function () {
 });
 
 test('new users can register', function () {
+    $this->withoutExceptionHandling();
+    \App\Models\Role::create(['description' => 'admin']);
+    \App\Models\Role::create(['id' => 2, 'description' => 'visitor']);
     $response = $this->post('/register', [
         'name' => 'Test User',
         'email' => 'test@example.com',

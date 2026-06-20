@@ -33,6 +33,13 @@ class User extends Authenticatable
         ];
     }
 
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role_id',
+    ];
+
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);

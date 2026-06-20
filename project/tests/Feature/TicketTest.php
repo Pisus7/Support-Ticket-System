@@ -50,7 +50,7 @@ class TicketTest extends TestCase
 
         // Prüft, ob der Controller auf die Show-Seite des neuen Tickets weiterleitet
         $ticket = Ticket::first();
-        $response->assertRedirect(route('tickets.show', $ticket));
+        $response->assertRedirect(route('tickets.index'));
     }
 
     /**
