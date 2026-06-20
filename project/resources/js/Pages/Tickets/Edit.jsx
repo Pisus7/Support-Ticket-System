@@ -7,6 +7,7 @@ export default function Edit({ ticket, categories }) {
         ticket_subject: ticket.ticket_subject || '',
         ticket_message: ticket.ticket_message || '',
         category_id: ticket.category_id || '',
+        ticket_status: ticket.ticket_status || ''
     });
 
     const submit = (e) => {

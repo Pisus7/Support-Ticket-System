@@ -17,12 +17,13 @@ class TicketController extends Controller
     {
         $user = $request->user();
 
-        // Admin sieht alle Tickets, User nur seine eigenen
-        if ($user->role_id === 1) {
-            $tickets = Ticket::with('user')->latest()->get();
-        } else {
-            $tickets = Ticket::where('user_id', $user->id)->latest()->get();
+        $query = Ticket::with(['user', 'category'])->latest();
+
+        if ($user->role_id !== 1) {
+            $query->where('user_id', $user->id);
         }
+
+        $tickets = $query->get();
 
         return Inertia::render('Tickets/Index', [
             'tickets' => $tickets
@@ -70,9 +71,11 @@ class TicketController extends Controller
 
     public function edit(Request $request, Ticket $ticket)
     {
-        if ($request->user()->role_id !== 1) {
-            Gate::authorize('update', $ticket);
+        if ($request->user()->role_id !== 1 && $ticket->ticket_status !== 'open') {
+            abort(403, 'Nur offene Tickets können bearbeitet werden.');
         }
+
+        Gate::authorize('update', $ticket);
 
         return Inertia::render('Tickets/Edit', [
             'ticket' => $ticket,
@@ -82,17 +85,42 @@ class TicketController extends Controller
 
     public function update(Request $request, Ticket $ticket)
     {
-        if ($request->user()->role_id !== 1) {
+        $user = $request->user();
+
+        if ($user->role_id !== 1) {
             Gate::authorize('update', $ticket);
         }
 
-        $newStatus = $request->input('ticket_status');
-        $ticket->ticket_status = $newStatus;
-        $ticket->admin_id = Auth::id();
-        $ticket->save();
-        $ticket->refresh();
+        if ($request->has('ticket_status') && $request->input('ticket_status') !== $ticket->ticket_status) {
+            $newStatus = $request->input('ticket_status');
 
-        return redirect()->route('tickets.index', $ticket);
+            if ($user->role_id !== 1 && !in_array($newStatus, ['resolved', 'archived'])) {
+                abort(403, 'Unauthorized action.');
+            }
+
+            $ticket->ticket_status = $newStatus;
+
+            if ($newStatus === 'in_progress' && $user->role_id === 1) {
+                $ticket->admin_id = $user->id;
+            }
+
+            $ticket->save();
+            return redirect()->route('tickets.show', $ticket);
+        }
+
+        if ($user->role_id !== 1 && $ticket->ticket_status !== 'open') {
+            abort(403, 'Du kannst nur offene Tickets bearbeiten.');
+        }
+
+        $validated = $request->validate([
+            'ticket_subject' => 'required|string|max:255',
+            'ticket_message' => 'required|string',
+            'category_id'   => 'required|exists:categories,id',
+        ]);
+
+        $ticket->update($validated);
+
+        return redirect()->route('tickets.show', $ticket);
     }
 
     public function destroy(Request $request, Ticket $ticket)

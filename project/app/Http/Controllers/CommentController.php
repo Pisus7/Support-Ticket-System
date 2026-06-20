@@ -26,6 +26,17 @@ class CommentController extends Controller
 
         $ticket->user->notify(new NewCommentNotification($comment));
 
+        if($request->user()->role_id === 1) {
+            if ($ticket->ticket_status !== 'closed' && $ticket->ticket_status !== 'resolved') {
+                if ($request->user()->role_id === 1) {
+                    $ticket->ticket_status = 'pending';
+                } else {
+                    $ticket->ticket_status = 'in_progress';
+                }
+                $ticket->save();
+            }
+        }
+
         return redirect()->route('tickets.show', $ticket);
     }
 

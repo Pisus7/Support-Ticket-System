@@ -33,49 +33,97 @@ export default function Show({ ticket, auth }) {
                             {ticket.ticket_message}
                         </p>
 
+                        <p className="text-gray-600 mb-4">
+                            Kategorie: {ticket.category?.name }
+                        </p>
+
                         <p className="text-sm text-gray-500 mb-6">
                             Status: {ticket.ticket_status}
                         </p>
 
 
-                        <div className="flex gap-3">
+                        <div className="flex flex-wrap items-center gap-3 mt-4 border-t pt-4">
+                            {/* Back Button */}
                             <Link
                                 href={route('tickets.index')}
-                                className="border border-gray-500 text-gray-500 px-3 py-1 rounded hover:bg-gray-500 hover:text-white transition"
+                                className="border border-gray-500 text-gray-500 px-3 py-1.5 rounded hover:bg-gray-500 hover:text-white transition flex items-center justify-center"
+                                title="Back to List"
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M10 19l-7-7 7-7M3 12h18" />
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7 7-7M3 12h18" />
                                 </svg>
                             </Link>
 
-                            <Link
-                                href={route('tickets.edit', ticket.id)}
-                                className="border border-green-500 text-green-500 px-3 py-1 rounded hover:bg-green-500 hover:text-white transition"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M16.862 3.487a2.1 2.1 0 113 2.97L7.5 18.82l-4 1 1-4L16.862 3.487z" />
-                                </svg>
-                            </Link>
-                            <Link
-                                href={route('tickets.update', ticket.id)}
-                                method="put"
-                                data={{
-                                    ticket_status: 'closed',
-                                    ticket_subject: ticket.ticket_subject,
-                                    ticket_message: ticket.ticket_message
-                                }}
-                                title={"Mark as Closed"}
-                                className="border border-red-500 text-red-500 px-3 py-1 rounded hover:bg-red-500 hover:text-white transition"
-                            >
-                                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M9 12l2 2 4-4" />
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                                          d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20z" />
-                                </svg>
-                            </Link>
+                            {(auth.user?.role_id === 1 || (auth.user?.role_id === 2 && ticket.ticket_status === 'open')) && (
+                                <Link
+                                    href={route('tickets.edit', ticket.id)}
+                                    className="border border-green-500 text-green-500 px-3 py-1.5 rounded hover:bg-green-500 hover:text-white transition flex items-center justify-center"
+                                    title="Edit Ticket"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16.862 3.487a2.1 2.1 0 113 2.97L7.5 18.82l-4 1 1-4L16.862 3.487z" />
+                                    </svg>
+                                </Link>
+                            )}
+
+                            {/* ADMIN ONLY BUTTONS */}
+                            {isAdmin && (
+                                <>
+
+                                    {/* Take Over (Only when Open) */}
+                                    {ticket.ticket_status === 'open' && (
+                                        <Link
+                                            href={route('tickets.update', ticket.id)}
+                                            method="put"
+                                            data={{ ticket_status: 'in_progress', admin_id: auth.user.id, ticket_subject: ticket.ticket_subject, ticket_message: ticket.ticket_message, category_id: ticket.category_id }}
+                                            title="Take over Ticket"
+                                            className="inline-flex items-center gap-1.5 border border-indigo-600 text-indigo-600 px-3 py-1.5 rounded hover:bg-indigo-600 hover:text-white transition text-sm font-medium shadow-sm"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                            <span>Take over</span>
+                                        </Link>
+                                    )}
+
+                                    {/* Set Pending (Only when In Progress) */}
+                                    {ticket.ticket_status === 'in_progress' && (
+                                        <Link
+                                            href={route('tickets.update', ticket.id)}
+                                            method="put"
+                                            data={{ ticket_status: 'pending', ticket_subject: ticket.ticket_subject, ticket_message: ticket.ticket_message, category_id: ticket.category_id }}
+                                            className="border border-amber-500 text-amber-500 px-3 py-1.5 rounded hover:bg-amber-500 hover:text-white transition text-sm font-medium"
+                                        >
+                                            Set Pending
+                                        </Link>
+                                    )}
+
+                                    {/* Hard Close (When not already closed) */}
+                                    {ticket.ticket_status !== 'closed' && (
+                                        <Link
+                                            href={route('tickets.update', ticket.id)}
+                                            method="put"
+                                            data={{ ticket_status: 'closed', ticket_subject: ticket.ticket_subject, ticket_message: ticket.ticket_message, category_id: ticket.category_id }}
+                                            className="border border-gray-600 text-gray-600 px-3 py-1.5 rounded hover:bg-gray-600 hover:text-white transition text-sm font-medium"
+                                        >
+                                            Close Ticket
+                                        </Link>
+                                    )}
+                                </>
+                            )}
+
+                            {/* RESOLVED BUTTON (Außerhalb von isAdmin, damit es auch der Client sieht!) */}
+                            {(ticket.ticket_status !== 'resolved' && ticket.ticket_status !== 'closed') && (isAdmin || ticket.user_id === auth.user.id) && (
+                                <Link
+                                    href={route('tickets.update', ticket.id)}
+                                    method="put"
+                                    data={{ ticket_status: 'resolved', ticket_subject: ticket.ticket_subject, ticket_message: ticket.ticket_message, category_id: ticket.category_id }}
+                                    className="border border-green-500 text-green-500 px-3 py-1.5 rounded hover:bg-green-500 hover:text-white transition text-sm font-medium ml-auto"
+                                >
+                                    Mark as Resolved
+                                </Link>
+                            )}
                         </div>
 
                     </div>

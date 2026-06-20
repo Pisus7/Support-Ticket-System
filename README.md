@@ -105,9 +105,21 @@ Die Kommunikation zwischen dem React-Frontend und dem Laravel-Backend folgt stri
 - Models (Eloquent ORM) zur Abbildung der Datenbanktabellen und Beziehungen
 - Controllers für die gesamte Backend-Logik und CRUD-Funktionen
 - Routes in `web.php` zur Verknüpfung von URLs mit Controller-Funktionen
-- Views mit Blade Templates für die Benutzeroberfläche (später Umstellung auf React)
+- Views mit React und Inertia.js für die Benutzeroberfläche
 - Validation zur Prüfung von Eingaben
 - Middleware für Authentifizierung und Zugriffskontrolle
+
+## Ticket Lifecycle & Status Meanings
+
+Our internal IT Support system uses a 5-stage workflow to track the lifecycle of a ticket efficiently:
+
+| Status        | Target | Description                                                                                                                                            |
+|:--------------| :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Open`        | **IT Department** | The ticket was just created by an employee. No admin has assigned themselves to it yet. Needs urgent triage.                                           |
+| `In Progress` | **IT Department** | An IT Support agent has taken ownership (`admin_id` in tickets table) and is actively investigating or working on a fix.                               |
+| `Pending`     | **Employee** | The IT Department has replied and is waiting for information from the employee (e.g., screenshots, testing confirmation).                              |
+| `Resolved`    | **System / Verification** | The issue is fixed. The ticket is marked as resolved either by the admin or the employee. The employee has 24 hours to re-open it if the bug persists. |
+| `Closed`      | **Archive** | The ticket is finalized, archived, and read-only. No further comments can be added.                                                                    |
 
 ## Tests
 - Feature Tests:
