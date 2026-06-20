@@ -6,6 +6,8 @@ use App\Enums\TicketStatus;
 use App\Http\Requests\TicketRequest;
 use App\Models\Ticket;
 use App\Models\Category;
+use App\Notifications\NewCommentNotification;
+use App\Notifications\NewStatusNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -105,6 +107,8 @@ class TicketController extends Controller
             }
 
             $ticket->save();
+            $ticket->user->notify(new NewStatusNotification($ticket));
+
             return redirect()->route('tickets.show', $ticket);
         }
 
