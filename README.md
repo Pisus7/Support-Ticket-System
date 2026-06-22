@@ -101,6 +101,9 @@ Die Kommunikation zwischen dem React-Frontend und dem Laravel-Backend folgt stri
 ## ER-Diagramm (Entity-Relationship-Diagramm) (Paul)
 ![ER-Diagramm](er-diagram.png)
 
+## Projektmanagement
+![kanban-board.png](kanban-board.png)
+
 ## Laravel Architektur
 
 - Models (Eloquent ORM) zur Abbildung der Datenbanktabellen und Beziehungen
