@@ -37,10 +37,14 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $pepper = env('PASSWORD_PEPPER', '');
+
+        $passwordWithPepper = $request->password . $pepper;
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($passwordWithPepper),
             'role_id' => 2
         ]);
 

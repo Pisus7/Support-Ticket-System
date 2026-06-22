@@ -63,19 +63,20 @@ Empfänger:
 - Beteiligte Support-Mitarbeiter
 - 
 ## Sicherheitskonzept & Autorisierung (Paul)
+
 Um die Integrität der Daten und die Privatsphäre der Benutzer zu schützen, wurden folgende Sicherheitsmechanismen implementiert:
 
-1. **Vollständiges User-Management & Authentifizierung:**
-   Einsatz von *Laravel Breeze* für kryptografisch sichere Passwörter (Bcrypt) sowie Schutz vor Brute-Force-Angriffen beim Login/Register.
+1. **Enterprise-Grade Passwort-Sicherheit (Argon2id & Pepper):**
+   Die Standard-Authentifizierung von *Laravel Breeze* wurde auf das derzeit höchste Sicherheitsniveau hochgestuft. Anstelle von standardmäßigem Bcrypt wird der mathematisch extrem robuste **Argon2id-Algorithmus** verwendet, welcher durch gezielten Arbeitsspeicher- und CPU-Aufwand Hardware-Angriffe (via GPUs oder ASICs) effektiv blockiert. Zusätzlich wurde ein serverseitiger **Pepper** (ein geheimer, langer Schlüssel aus dem Secret Store) integriert, der vor dem Hashen an jedes Passwort angehängt wird. Dadurch sind die Hashes selbst bei einem vollständigen Diebstahl der Datenbank für Angreifer mathematisch wertlos. Strikte Passwort-Richtlinien (Mindestlänge, Groß-/Kleinschreibung, Sonderzeichen, Zahlen) sowie eine Live-Überprüfung über das `uncompromised()`-Attribut verhindern zudem die Nutzung bereits kompromittierter Passwörter aus bekannten historischen Datenlecks.
 
 2. **Absicherung kritischer Routen (Middleware):**
    Alle Ticket- und Kommentar-Routen sind durch die `auth`- und `verified`-Middlewares geschützt. Nicht angemeldete Gäste werden automatisch abgefangen und zur Login-Maske umgeleitet (abgesichert via `TicketTest::test_guests_are_redirected_to_login`).
 
 3. **Rechteprüfung mittels Laravel Policies (Data Leakage Protection):**
-   Durch die Implementierung der `TicketPolicy` (`view`-Methode) wird auf Controllerebene per `Gate::authorize()` strikt geprüft, ob das angeforderte Ticket dem aktuell angemeldeten Benutzer gehört. Fremde Zugriffe über manipulierte URLs (ID-Guessing) werden sofort mit einem `HTTP 403 Forbidden` blockiert (abgesichert via `TicketTest::test_user_cannot_view_someone_elses_ticket`).
+   Durch die Implementierung der `TicketPolicy` (`view`-Methode) wird auf Controllerebene per `Gate::authorize()` strikt geprüft, ob das angeforderte Ticket dem aktuell angemeldeten Benutzer gehört. Fremde Zugriffe über manipulierte URLs (ID-Guessing / IDOR-Angriffe) werden sofort mit einem `HTTP 403 Forbidden` blockiert (abgesichert via `TicketTest::test_user_cannot_view_someone_elses_ticket`).
 
 4. **Mass-Assignment-Protection & Validierung:**
-   Sämtliche Benutzereingaben werden über *Form Requests* typisiert validiert, bevor sie die Datenbank erreichen. Die Models nutzen das `$fillable`-Array, um das unbefugte Überschreiben kritischer Tabellenspalten (wie `user_id` oder IDs) durch manipuliertes HTML/JSON zu verhindern.
+   Sämtliche Benutzereingaben werden über *Form Requests* typisiert validiert, bevor sie die Datenbank erreichen. Die Models nutzen das `$fillable`-Array, um das unbefugte Überschreiben kritischer Tabellenspalten (wie `user_id` oder Berechtigungs-IDs) durch manipuliertes HTML/JSON zu verhindern.
 
 ### REST-Matrix & API-Endpunkte
 

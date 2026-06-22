@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $pepper = env('PASSWORD_PEPPER', '');
+
         // --- ROLES ---
         Role::factory()->create([
             'id' => 1,
@@ -34,14 +36,14 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Paul Summerauer',
             'email' => 'paul@aon.at',
-            'password' => Hash::make('paulaonat'),
+            'password' => Hash::make('paulaonat' . $pepper),
             'role_id' => 1
         ]);
 
         User::factory()->create([
             'name' => 'John Doe',
             'email' => 'john@example.com',
-            'password' => Hash::make('johndoe'),
+            'password' => Hash::make('johndoe' . $pepper),
             'role_id' => 2
         ]);
 

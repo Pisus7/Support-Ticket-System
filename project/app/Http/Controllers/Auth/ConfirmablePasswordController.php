@@ -25,9 +25,11 @@ class ConfirmablePasswordController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $pepper = env('PASSWORD_PEPPER', '');
+
         if (! Auth::guard('web')->validate([
             'email' => $request->user()->email,
-            'password' => $request->password,
+            'password' => $request->password . $pepper,
         ])) {
             throw ValidationException::withMessages([
                 'password' => __('auth.password'),
