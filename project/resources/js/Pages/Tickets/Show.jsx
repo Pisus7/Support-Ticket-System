@@ -54,7 +54,7 @@ export default function Show({ ticket, auth }) {
                                 </svg>
                             </Link>
 
-                            {(auth.user?.role_id === 1 || (auth.user?.role_id === 2 && ticket.ticket_status === 'open')) && (
+                            {(auth.user?.role_id === 1 || (auth.user?.role_id === 2 && ticket.ticket_status === 'open')) && ticket.ticket_status !== 'archived' && (
                                 <Link
                                     href={route('tickets.edit', ticket.id)}
                                     className="border border-green-500 text-green-500 px-3 py-1.5 rounded hover:bg-green-500 hover:text-white transition flex items-center justify-center"
@@ -100,7 +100,7 @@ export default function Show({ ticket, auth }) {
                                     )}
 
                                     {/* Hard Close (When not already closed) */}
-                                    {ticket.ticket_status !== 'closed' && (
+                                    {ticket.ticket_status !== 'closed'  && ticket.ticket_status !== 'archived' && (
                                         <Link
                                             href={route('tickets.update', ticket.id)}
                                             method="put"
@@ -114,7 +114,7 @@ export default function Show({ ticket, auth }) {
                             )}
 
                             {/* RESOLVED BUTTON (Außerhalb von isAdmin, damit es auch der Client sieht!) */}
-                            {(ticket.ticket_status !== 'resolved' && ticket.ticket_status !== 'closed') && (isAdmin || ticket.user_id === auth.user.id) && (
+                            {(ticket.ticket_status !== 'resolved' && ticket.ticket_status !== 'closed' && ticket.ticket_status !== 'archived') && (isAdmin || ticket.user_id === auth.user.id) && (
                                 <Link
                                     href={route('tickets.update', ticket.id)}
                                     method="put"

@@ -14,6 +14,10 @@ class CommentController extends Controller
 {
     public function store(CommentRequest $request, Ticket $ticket)
     {
+        if ($ticket->ticket_status === 'closed' && $request->user()->role_id !== 1) {
+            abort(403, 'Auf geschlossene Tickets kann nicht kommentiert werden!');
+        }
+
         if ($request->user()->role_id !== 1) {
             Gate::authorize('view', $ticket);
         }

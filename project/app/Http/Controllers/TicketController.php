@@ -56,6 +56,10 @@ class TicketController extends Controller
 
     public function show(Request $request, Ticket $ticket)
     {
+        if ($ticket->ticket_status === 'archived' && $request->user()->role_id !== 1) {
+            abort(403, 'Archivierte Tickets können nur von Admins eingesehen werden.');
+        }
+
         if ($request->user()->role_id !== 1) {
             Gate::authorize('view', $ticket);
         }
